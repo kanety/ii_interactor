@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module IIInteractor
-  module LookupAdapter
+  module Lookups
     class Name < Base
       def call
         IIInteractor.load

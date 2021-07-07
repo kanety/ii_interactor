@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require_relative 'lookup_adapter/base'
-require_relative 'lookup_adapter/name'
-require_relative 'lookup_adapter/object'
+require_relative 'lookups/base'
+require_relative 'lookups/name'
+require_relative 'lookups/object'
 
 module IIInteractor
   module Lookup
@@ -33,16 +33,16 @@ module IIInteractor
     end
 
     class << self
-      class_attribute :adapters
-      self.adapters = [LookupAdapter::Name, LookupAdapter::Object]
+      class_attribute :lookups
+      self.lookups = [Lookups::Name, Lookups::Object]
 
       class_attribute :_cache
       self._cache = {}
 
       def call(klass, interaction)
         cache(klass, interaction) do
-          adapter = adapters.detect { |adapter| adapter.call?(interaction) }
-          adapter.new(klass, interaction).call if adapter
+          lookup = lookups.detect { |lookup| lookup.call?(interaction) }
+          lookup.new(klass, interaction).call if lookup
         end
       end
 

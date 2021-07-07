@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module IIInteractor
-  module LookupAdapter
+  module Lookups
     class Object < Base
       def call
         return if terminate?

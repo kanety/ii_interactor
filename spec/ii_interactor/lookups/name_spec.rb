@@ -1,11 +1,11 @@
-describe IIInteractor::LookupAdapter::Name do
+describe IIInteractor::Lookups::Name do
   context 'name' do
     let :interactor do
       LookupByNameInteractor
     end
 
     it 'lookups interactors' do
-      expect(interactor.new.lookup).to eq([Lookups::AInteractor, Lookups::BInteractor])
+      expect(interactor.new.lookup).to include(Lookups::AInteractor, Lookups::BInteractor)
     end
   end
 
@@ -15,7 +15,7 @@ describe IIInteractor::LookupAdapter::Name do
     end
 
     it 'lookups interactors' do
-      expect(interactor.new.lookup).to eq([Lookups::BInteractor, Lookups::CInteractor])
+      expect(interactor.new.lookup).to include(Lookups::BInteractor, Lookups::CInteractor)
     end
   end
 end

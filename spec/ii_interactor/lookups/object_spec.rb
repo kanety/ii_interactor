@@ -1,4 +1,4 @@
-describe IIInteractor::LookupAdapter::Object do
+describe IIInteractor::Lookups::Object do
   context 'object' do
     let :interactor do
       LookupByObjectInteractor

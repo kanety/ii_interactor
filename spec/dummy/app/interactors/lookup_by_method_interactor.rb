@@ -4,6 +4,7 @@ class LookupByMethodInteractor < IIInteractor::Base
   private
 
   def lookup_interactors
-    IIInteractor::Base.descendants.select { |klass| klass.name =~ /^Lookups::/ }
+    IIInteractor.load
+    IIInteractor::Base.descendants.select { |klass| klass.name =~ /^Lookups::/ }.sort_by(&:name)
   end
 end
