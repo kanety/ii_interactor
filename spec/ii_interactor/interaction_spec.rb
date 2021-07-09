@@ -13,7 +13,7 @@ describe IIInteractor::Interaction do
       expect(interactor.interactions).to eq([Interacts::AInteractor])
     end
 
-    it 'iserts interaction' do
+    it 'inserts interaction' do
       interactor.interact(Interacts::AInteractor)
       interactor.interact(Interacts::BInteractor, before: Interacts::AInteractor)
       expect(interactor.interactions).to eq([Interacts::BInteractor, Interacts::AInteractor])

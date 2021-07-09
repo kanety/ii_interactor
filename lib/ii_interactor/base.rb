@@ -21,11 +21,11 @@ module IIInteractor
         end
     end
 
-    def call_all
+    def call_all(&block)
       interactors = lookup.map { |interactor| interactor.new(@context) } + [self]
       called = []
       interactors.each do |interactor|
-        interactor.call_self
+        interactor.call_self(&block)
         called << interactor
         break if @context.stopped?
       end
@@ -35,10 +35,16 @@ module IIInteractor
       end
     end
 
-    def call_self
+    def call_self(&block)
+      call_block(block, :befoe)
       run_callbacks :call do
         call
       end
+      call_block(block, :after)
+    end
+
+    def call_block(block, checkpoint)
+      block.call(self, @context, checkpoint) if block
     end
 
     def call
@@ -57,9 +63,9 @@ module IIInteractor
     end
 
     class << self
-      def call(context = {})
+      def call(context = {}, &block)
         interactor = new(context)
-        interactor.call_all
+        interactor.call_all(&block)
         interactor.context
       end
     end
