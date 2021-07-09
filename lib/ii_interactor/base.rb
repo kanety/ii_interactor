@@ -27,6 +27,7 @@ module IIInteractor
       interactors.each do |interactor|
         interactor.call_self
         called << interactor
+        break if @context.stopped?
       end
     rescue UnprogressableError
       called.reverse.each do |interactor|
@@ -46,10 +47,13 @@ module IIInteractor
     def rollback
     end
 
-    def fail!(message = nil)
-      @context.failed = true
-      @context.failed_message = message || "failed #{self.class}"
+    def fail!(data = {})
+      @context.fail!(data)
       raise UnprogressableError.new(@context)
+    end
+
+    def stop!(data = {})
+      @context.stop!(data)
     end
 
     class << self

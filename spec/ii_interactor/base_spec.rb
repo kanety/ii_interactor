@@ -4,10 +4,10 @@ describe IIInteractor::Base do
   end
 
   it 'calls interactor' do
-    expect(interactor.call(key: 'value').key).to eq('value')
+    expect(interactor.call.success?).to eq(true)
   end
 
-  it 'fails interactor' do
-    expect(interactor.call(fail: true).failed?).to eq(true)
+  it 'returns context' do
+    expect(interactor.call(key: 'value').key).to eq('value')
   end
 end

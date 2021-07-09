@@ -1,6 +1,7 @@
-class InteractedInteractor < IIInteractor::Base
+class Interactor < IIInteractor::Base
   interact Interacts::AInteractor
   interact Interacts::BInteractor
+  interact Interacts::CInteractor
 
   before_call do
     @context.results ||= []

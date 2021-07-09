@@ -4,6 +4,7 @@ class Interacts::AInteractor < IIInteractor::Base
   end
 
   def call
+    stop! if @context.stop == 'A'
     fail! if @context.fail == 'A'
     @context.results << 'A'
   end
