@@ -1,3 +1,3 @@
 class Lookups::AInteractor < IIInteractor::Base
-  interact :name_interaction
+  react :name_interaction
 end

@@ -7,6 +7,8 @@ module IIInteractor
     included do
       class_attribute :_interactions
       self._interactions = []
+      class_attribute :_reactions
+      self._reactions = []
     end
 
     class_methods do
@@ -27,6 +29,14 @@ module IIInteractor
 
       def clear_interactions
         self._interactions = []
+      end
+
+      def react(*reactions)
+        self._reactions = _reactions + reactions
+      end
+
+      def reactions
+        self._reactions
       end
     end
   end

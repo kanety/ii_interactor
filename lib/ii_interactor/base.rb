@@ -22,16 +22,11 @@ module IIInteractor
     end
 
     def call_all(&block)
-      interactors = lookup.map { |interactor| interactor.new(@context) } + [self]
-      called = []
-      interactors.each do |interactor|
+      @context._planned = lookup_all.map { |interactor| interactor.new(@context) } + [self]
+      @context._planned.each do |interactor|
         interactor.call_self(&block)
-        called << interactor
+        @context._called << interactor
         break if @context.stopped?
-      end
-    rescue UnprogressableError
-      called.reverse.each do |interactor|
-        interactor.rollback
       end
     end
 
@@ -66,6 +61,11 @@ module IIInteractor
       def call(context = {}, &block)
         interactor = new(context)
         interactor.call_all(&block)
+        interactor.context
+      rescue UnprogressableError
+        interactor.context._called.reverse.each do |called|
+          called.rollback
+        end
         interactor.context
       end
     end

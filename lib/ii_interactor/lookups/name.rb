@@ -6,7 +6,7 @@ module IIInteractor
       def call
         IIInteractor.load
         IIInteractor::Base.descendants.select do |interactor|
-          interactor._interactions.any? { |interaction| interaction == @interaction }
+          interactor._reactions.any? { |reaction| reaction == @interaction }
         end
       end
 

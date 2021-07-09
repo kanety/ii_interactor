@@ -101,7 +101,7 @@ You can also interact with other interactors by using named interaction:
 
 ```ruby
 class AInteractor < IIInteractor::Base
-  interact :some_name
+  react :some_name
 
   def call
     puts self.class.name
@@ -109,7 +109,7 @@ class AInteractor < IIInteractor::Base
 end
 
 class BInteractor < IIInteractor::Base
-  interact :some_name
+  react :some_name
 
   def call
     puts self.class.name
@@ -130,9 +130,9 @@ Note followings:
 * Files in `app/interactors` are loaded to lookup interactors having same name in case of development mode.
 * The called interactors are unordered.
 
-#### Object oriented interaction
+#### Object based interaction
 
-You can also interact with object oriented interactors:
+You can also interact with object based interactors:
 
 ```ruby
 class A
@@ -241,7 +241,7 @@ class MainInteractor < IIInteractor::Base
   interact BInteractor
 
   def call
-    fail!("something happened!")
+    fail!(message: "something happened!")
   end
 end
 
@@ -251,7 +251,7 @@ context = MainInteractor.call
 #   rollback BInteractor
 #   rollback AInteractor
 
-context.failed_message
+context.message
 #=> something happened!
 ```
 

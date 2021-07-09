@@ -8,8 +8,12 @@ module IIInteractor
   module Lookup
     extend ActiveSupport::Concern
 
+    def lookup_all
+      lookup.map { |interactor| [interactor] + interactor.new(@context).lookup_all }.flatten
+    end
+
     def lookup
-      _interactions.map do |interaction|
+      self.class._interactions.map do |interaction|
         if interaction.is_a?(Symbol) && respond_to?(interaction, true)
           send(interaction)
         elsif interaction.is_a?(Proc)
@@ -21,14 +25,15 @@ module IIInteractor
         if interaction.is_a?(Class) && interaction < IIInteractor::Base
           interaction
         else
-          self.class.lookup(self.class, interaction)
+          self.class.lookup(interaction)
         end
-      end.flatten.compact - [self.class]
+      end.flatten.compact
     end
 
     class_methods do
-      def lookup(klass, interaction)
-        Lookup.call(klass, interaction)
+      def lookup(*interactions)
+        interactions = _interactions unless interactions
+        interactions.map { |interaction| Lookup.call(self, interaction) }.flatten
       end
     end
 
@@ -50,7 +55,6 @@ module IIInteractor
 
       def cache(klass, interaction)
         if Config.lookup_cache
-          self._cache ||= {}
           self._cache[klass] ||= {}
           self._cache[klass][interaction] ||= yield
         else

@@ -2,6 +2,11 @@
 
 module IIInteractor
   class Context < OpenStruct
+    def initialize(hash)
+      super
+      self[:_called] = []
+    end
+
     def success?
       !failure?
     end
