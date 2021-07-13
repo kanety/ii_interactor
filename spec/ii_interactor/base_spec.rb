@@ -8,8 +8,11 @@ describe IIInteractor::Base do
   end
 
   it 'calls interactor with block' do
-    context = interactor.call { |called, context| context.key = 'value' }
-    expect(context.key).to eq('value')
+    key = nil
+    interactor.call do |interactor|
+      key = 'value'
+    end
+    expect(key).to eq('value')
   end
 
   it 'returns context' do

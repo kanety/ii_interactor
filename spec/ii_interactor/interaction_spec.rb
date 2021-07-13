@@ -19,4 +19,15 @@ describe IIInteractor::Interaction do
       expect(interactor.interactions).to eq([Interacts::BInteractor, Interacts::AInteractor])
     end
   end
+
+  context 'reaction' do
+    let :interactor do
+      ReactInteractor
+    end
+
+   
+    it 'gets reactions' do
+      expect(interactor.reactions).to eq([:test_interactor])
+    end
+  end
 end

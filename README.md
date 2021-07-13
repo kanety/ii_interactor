@@ -23,7 +23,7 @@ Then execute:
 
 ## Usage
 
-Create interactor with `call` method:
+Create interactor with `call` method and call it as follows:
 
 ```ruby
 class Interactor < IIInteractor::Base
@@ -31,11 +31,7 @@ class Interactor < IIInteractor::Base
     @context.result = "called by #{@context.message}"
   end
 end
-```
 
-Then call:
-
-```ruby
 Interactor.call(message: 'something')
 #=> #<IIInteractor::Context message="something", result="called by something">
 ```
@@ -68,9 +64,9 @@ Interactor.call(message: 'something')
 #=> something
 ```
 
-### Interaction
+### Interactions
 
-You can interact with other interactors in the same context:
+You can call other interactors in the same context using `interact`:
 
 ```ruby
 class AInteractor < IIInteractor::Base
@@ -97,7 +93,8 @@ MainInteractor.call
 
 #### Named interaction
 
-You can also interact with other interactors by using named interaction:
+You can also define named interactions.
+The interactors to be called are looked up from all interactors.
 
 ```ruby
 class AInteractor < IIInteractor::Base
@@ -127,12 +124,13 @@ MainInteractor.call
 
 Note followings:
 
-* Files in `app/interactors` are loaded to lookup interactors having same name in case of development mode.
+* All files in `app/interactors` are loaded in development mode to lookup interactors having same name.
 * The called interactors are unordered.
 
 #### Object based interaction
 
-You can also interact with object based interactors:
+You can also define object based interactions.
+The interactors to be called are looked up from the namespace corresponding with caller interactor.
 
 ```ruby
 class A
@@ -162,8 +160,6 @@ MainInteractor.call
 #=> Main::AInteractor
 #   Main::BInteractor
 ```
-
-Note that the called interactors are looked up from the namespace corresponding with caller interactor.
 
 #### Custom interaction
 
@@ -211,9 +207,90 @@ MainInteractor.call(condition: 'B')
 #=> BInteractor
 ```
 
-### Rollback
+#### Nested interaction
 
-You can fail a interactor and rollback called interactors as follows:
+You can define nested interactions as follows:
+
+```ruby
+class NestedAInteractor < IIInteractor::Base
+  def call
+    puts self.class.name
+  end
+end
+
+class NestedBInteractor < IIInteractor::Base
+  def call
+    puts self.class.name
+  end
+end
+
+class AInteractor < IIInteractor::Base
+  interact NestedAInteractor
+
+  def call
+    puts self.class.name
+  end
+end
+
+class BInteractor < IIInteractor::Base
+  interact NestedBInteractor
+
+  def call
+    puts self.class.name
+  end
+end
+
+class MainInteractor < IIInteractor::Base
+  interact AInteractor
+  interact BInteractor
+end
+
+MainInteractor.call
+#=> NestedAInteractor
+#   AInteractor
+#   NestedBInteractor
+#   BInteractor
+```
+
+### Stop interactions
+
+You can stop interactions as follows:
+
+```ruby
+class AInteractor < IIInteractor::Base
+  def call
+    puts self.class.name
+    stop!(message: "something happened!")
+  end
+end
+
+class BInteractor < IIInteractor::Base
+  def call
+    puts self.class.name
+  end
+end
+
+class MainInteractor < IIInteractor::Base
+  interact AInteractor
+  interact BInteractor
+end
+
+context = MainInteractor.call
+#=> AInteractor
+
+context.message
+#=> something happened!
+
+context.stopped?
+#=> true
+
+context.success?
+#=> true
+```
+
+### Fail interactions
+
+You can fail interactions and rollback called interactors as follows:
 
 ```ruby
 class AInteractor < IIInteractor::Base
@@ -228,7 +305,7 @@ end
 
 class BInteractor < IIInteractor::Base
   def call
-    puts self.class.name
+    fail!(message: "something happened!")
   end
 
   def rollback
@@ -239,20 +316,47 @@ end
 class MainInteractor < IIInteractor::Base
   interact AInteractor
   interact BInteractor
-
-  def call
-    fail!(message: "something happened!")
-  end
 end
 
 context = MainInteractor.call
 #=> AInteractor
-#   BInteractor
-#   rollback BInteractor
 #   rollback AInteractor
 
 context.message
 #=> something happened!
+
+context.failure?
+#=> true
+```
+
+### Pass a block
+
+You can pass a block to `call` method of a interactor.
+The block is kept in the context and you can call it by `inform` as you like:
+
+```ruby
+class AInteractor < IIInteractor::Base
+  def call
+    inform('called A')
+  end
+end
+
+class BInteractor < IIInteractor::Base
+  def call
+    inform('called B')
+  end
+end
+
+class MainInteractor < IIInteractor::Base
+  interact AInteractor
+  interact BInteractor
+end
+
+MainInteractor.call do |interactor, message|
+  puts "#{interactor.class}: #{message}"
+end
+#=> AInteractor: called A
+#   BInteractor: called B
 ```
 
 ## Contributing

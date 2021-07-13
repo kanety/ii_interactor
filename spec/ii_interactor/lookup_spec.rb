@@ -7,6 +7,10 @@ describe IIInteractor::Lookup do
     it 'lookups interactors' do
       expect(interactor.new.lookup).to eq([Lookups::AInteractor, Lookups::BInteractor])
     end
+
+    it 'lookups all interactors' do
+      expect(interactor.new.lookup_all).to eq([Lookups::AInteractor, Lookups::BInteractor])
+    end
   end
 
   context 'lookup block' do
