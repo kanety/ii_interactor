@@ -9,6 +9,12 @@ module IIInteractor
       define_callbacks :call
     end
 
+    def call_self
+      run_callbacks :call do
+        super
+      end
+    end
+
     class_methods do
       def before_call(*args, &block)
         set_callback(:call, :before, *args, &block)

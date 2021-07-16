@@ -41,11 +41,11 @@ module IIInteractor
       class_attribute :lookups
       self.lookups = [Lookups::Name, Lookups::Object]
 
-      class_attribute :_cache
-      self._cache = {}
+      class_attribute :cache
+      self.cache = {}
 
       def call(klass, interaction)
-        cache(klass, interaction) do
+        with_cache(klass, interaction) do
           lookup = lookups.detect { |lookup| lookup.call?(interaction) }
           lookup.new(klass, interaction).call if lookup
         end
@@ -53,10 +53,10 @@ module IIInteractor
 
       private
 
-      def cache(klass, interaction)
+      def with_cache(klass, interaction)
         if Config.lookup_cache
-          self._cache[klass] ||= {}
-          self._cache[klass][interaction] ||= yield
+          self.cache[klass] ||= {}
+          self.cache[klass][interaction] ||= yield
         else
           yield
         end
