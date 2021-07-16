@@ -39,4 +39,4 @@ jobs:
         bundler-cache: true
     - name: Run test
       run: |
-        bundle exec rspec
+        DEBUG=1 bundle exec rspec

@@ -8,5 +8,8 @@ require "ii_interactor"
 
 module Dummy
   class Application < Rails::Application
+    config.after_initialize do
+      IIInteractor::LogSubscriber.attach_to(:ii_interactor)
+    end
   end
 end
