@@ -359,6 +359,21 @@ end
 #   BInteractor: called B
 ```
 
+### Logging
+
+Interactor supports instrumentation hook supplied by `ActiveSupport::Notifications`.
+You can enable log subscriber as follows:
+
+```ruby
+IIInteractor::LogSubscriber.attach_to :ii_interactor
+```
+
+This subscriber will write logs in debug mode as the following example:
+
+```
+Called SimpleInteractor (Duration: 0.3ms, Allocations: 42)
+```
+
 ## Contributing
 
 Bug reports and pull requests are welcome at https://github.com/kanety/ii_interactor.
