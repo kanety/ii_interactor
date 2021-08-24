@@ -5,7 +5,7 @@ module IIInteractor
     class << self
       def call
         return unless defined?(Rails)
-        return if Rails.env.production?
+        return if Rails.application.config.eager_load
 
         engines = [Rails] + Rails::Engine.subclasses.map(&:instance)
         engines.each do |engine|
