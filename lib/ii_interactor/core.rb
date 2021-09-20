@@ -30,8 +30,9 @@ module IIInteractor
     end
 
     def call_self
-      call
-      @context._called << self
+      call.tap do
+        @context._called << self
+      end
     end
 
     def call
@@ -54,8 +55,8 @@ module IIInteractor
     end
 
     class_methods do
-      def call(context = {}, &block)
-        interactor = new(context, &block)
+      def call(*args, &block)
+        interactor = new(*args, &block)
         interactor.call_all
         interactor.context
       rescue UnprogressableError
