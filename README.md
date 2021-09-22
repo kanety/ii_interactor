@@ -36,8 +36,73 @@ Interactor.call(message: 'something')
 #=> #<IIInteractor::Context message="something", result="called by something">
 ```
 
-The first argument of `call` is set to `@context`.
-The return value of `call` is the same as `@context`.
+The first argument of `Interactor.call` is set to `@context`.
+The return value of `Interactor.call` is the same as `@context`.
+
+### Context variables
+
+You can define context variables used in interactor explicitly.
+For example:
+
+```ruby
+class Interactor < IIInteractor::Base
+  context_in :input
+  context_out :result
+
+  def call
+    puts @input
+    @result = 'result value'
+  end
+end
+
+puts Interactor.call(input: 'input').result
+#=> input
+#   result value
+```
+
+`context_in` copies context into instance variables of interactor,
+while `context_out` copies instance variables of interactor into context.
+
+You can also define required context as follows:
+
+```ruby
+class Interactor < IIInteractor::Base
+  context_in :input, required: true
+end
+
+Interactor.call
+#=> IIInteractor::RequiredContextError (missing required context: input2)
+```
+
+You can also define default value as follows:
+
+```ruby
+class Interactor < IIInteractor::Base
+  context_in :input, default: 'input'
+
+  def call
+    puts @input
+  end
+end
+
+Interactor.call
+#=> input
+```
+
+You can also set context from return value of `call` method:
+
+```ruby
+class Interactor < IIInteractor::Base
+  context_out :result, from_return: true
+
+  def call
+    'returned value'
+  end
+end
+
+Interactor.call.result
+#=> returned value
+```
 
 ### Callbacks
 

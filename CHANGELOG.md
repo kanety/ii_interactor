@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.2.0
+
+* Add variable setting feature.
+
 ## 1.1.1
 
 * Check `config.eager_load` instead of `Rails.env` before file loading.
