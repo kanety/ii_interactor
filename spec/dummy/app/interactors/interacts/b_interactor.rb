@@ -1,15 +1,14 @@
 class Interacts::BInteractor < IIInteractor::Base
-  before_call do
-    @context.results ||= []
-  end
+  context_in :stop, :fail
+  context_out :results, default: []
 
   def call
-    stop! if @context.stop == 'B'
-    fail! if @context.fail == 'B'
-    @context.results << 'B'
+    stop! if @stop == 'B'
+    fail! if @fail == 'B'
+    @results << 'B'
   end
 
   def rollback
-    @context.results << 'rollback B'
+    @results << 'rollback B'
   end
 end

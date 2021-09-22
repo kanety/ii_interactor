@@ -7,7 +7,6 @@ module IIInteractor
       self[:_block] = block
       self[:_failed] = false
       self[:_stopped] = false
-      self[:_planned] = []
       self[:_called] = []
     end
 

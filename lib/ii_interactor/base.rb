@@ -11,9 +11,9 @@ require_relative 'lookup'
 module IIInteractor
   class Base
     include Core
-    include Variables
     include Callbacks
     include Instrumentation
+    include Variables
     include Interaction
     include Lookup
   end

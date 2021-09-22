@@ -3,16 +3,15 @@ class Interactor < IIInteractor::Base
   interact Interacts::BInteractor
   interact Interacts::CInteractor
 
-  before_call do
-    @context.results ||= []
-  end
+  context_in :fail
+  context_out :results, default: []
 
   def call
-    fail! if @context.fail == 'MAIN'
-    @context.results << 'MAIN'
+    fail! if @fail == 'MAIN'
+    @results << 'MAIN'
   end
 
   def rollback
-    @context.results << 'rollback MAIN'
+    @results << 'rollback MAIN'
   end
 end
