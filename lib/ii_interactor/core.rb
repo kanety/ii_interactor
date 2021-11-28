@@ -17,7 +17,7 @@ module IIInteractor
     end
 
     def call_all
-      planned = lookup.map { |interactor| interactor.new(@context) } + [self]
+      planned = coactors.map { |interactor| interactor.new(@context) } + [self]
       planned.each_with_index do |interactor, i|
         if i == planned.size - 1
           interactor.call_self

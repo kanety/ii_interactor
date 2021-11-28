@@ -1,7 +1,7 @@
 class Interactor < IIInteractor::Base
-  interact Interacts::AInteractor
-  interact Interacts::BInteractor
-  interact Interacts::CInteractor
+  coact Coactors::AInteractor
+  coact Coactors::BInteractor
+  coact Coactors::CInteractor
 
   context_in :fail
   context_out :results, default: []

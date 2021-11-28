@@ -129,9 +129,9 @@ Interactor.call(message: 'something')
 #=> something
 ```
 
-### Interactions
+### Coactions
 
-You can call other interactors in the same context using `interact`:
+You can call other interactors in the same context using `coact`:
 
 ```ruby
 class AInteractor < IIInteractor::Base
@@ -147,8 +147,8 @@ class BInteractor < IIInteractor::Base
 end
 
 class MainInteractor < IIInteractor::Base
-  interact AInteractor
-  interact BInteractor
+  coact AInteractor
+  coact BInteractor
 end
 
 MainInteractor.call
@@ -156,166 +156,7 @@ MainInteractor.call
 #   BInteractor
 ```
 
-#### Named interaction
-
-You can also define named interactions.
-The interactors to be called are looked up from all interactors.
-
-```ruby
-class AInteractor < IIInteractor::Base
-  react :some_name
-
-  def call
-    puts self.class.name
-  end
-end
-
-class BInteractor < IIInteractor::Base
-  react :some_name
-
-  def call
-    puts self.class.name
-  end
-end
-
-class MainInteractor < IIInteractor::Base
-  interact :some_name
-end
-
-MainInteractor.call
-#=> AInteractor
-#   BInteractor
-```
-
-Note followings:
-
-* All files in `app/interactors` are loaded in development mode to lookup interactors having same name.
-* The called interactors are unordered.
-
-#### Object based interaction
-
-You can also define object based interactions.
-The interactors to be called are looked up from the namespace corresponding with caller interactor.
-
-```ruby
-class A
-end
-
-class B
-end
-
-class Main::AInteractor < IIInteractor::Base
-  def call
-    puts self.class.name
-  end
-end
-
-class Main::BInteractor < IIInteractor::Base
-  def call
-    puts self.class.name
-  end
-end
-
-class MainInteractor < IIInteractor::Base
-  interact A
-  interact B
-end
-
-MainInteractor.call
-#=> Main::AInteractor
-#   Main::BInteractor
-```
-
-#### Custom interaction
-
-You can also customize lookup of interactors as follows:
-
-```ruby
-class AInteractor < IIInteractor::Base
-  def call
-    puts self.class.name
-  end
-end
-
-class BInteractor < IIInteractor::Base
-  def call
-    puts self.class.name
-  end
-end
-
-class MainInteractor < IIInteractor::Base
-  # set block
-  interact do
-    if @context.condition == 'A'
-      AInteractor
-    else
-      BInteractor
-    end
-  end
-
-  # set method name
-  interact :conditional_interactors
-
-  def conditional_interactors
-    if @context.condition == 'A'
-      AInteractor
-    else
-      BInteractor
-    end
-  end
-end
-
-MainInteractor.call(condition: 'A')
-#=> AInteractor
-
-MainInteractor.call(condition: 'B')
-#=> BInteractor
-```
-
-#### Nested interaction
-
-You can define nested interactions as follows:
-
-```ruby
-class NestedAInteractor < IIInteractor::Base
-  def call
-    puts self.class.name
-  end
-end
-
-class NestedBInteractor < IIInteractor::Base
-  def call
-    puts self.class.name
-  end
-end
-
-class AInteractor < IIInteractor::Base
-  interact NestedAInteractor
-
-  def call
-    puts self.class.name
-  end
-end
-
-class BInteractor < IIInteractor::Base
-  interact NestedBInteractor
-
-  def call
-    puts self.class.name
-  end
-end
-
-class MainInteractor < IIInteractor::Base
-  interact AInteractor
-  interact BInteractor
-end
-
-MainInteractor.call
-#=> NestedAInteractor
-#   AInteractor
-#   NestedBInteractor
-#   BInteractor
-```
+See [coactive](https://github.com/kanety/coactive) for more `coact` examples:
 
 ### Stop interactions
 
@@ -336,8 +177,8 @@ class BInteractor < IIInteractor::Base
 end
 
 class MainInteractor < IIInteractor::Base
-  interact AInteractor
-  interact BInteractor
+  coact AInteractor
+  coact BInteractor
 end
 
 context = MainInteractor.call
@@ -379,8 +220,8 @@ class BInteractor < IIInteractor::Base
 end
 
 class MainInteractor < IIInteractor::Base
-  interact AInteractor
-  interact BInteractor
+  coact AInteractor
+  coact BInteractor
 end
 
 context = MainInteractor.call
@@ -413,8 +254,8 @@ class BInteractor < IIInteractor::Base
 end
 
 class MainInteractor < IIInteractor::Base
-  interact AInteractor
-  interact BInteractor
+  coact AInteractor
+  coact BInteractor
 end
 
 MainInteractor.call do |interactor, message|

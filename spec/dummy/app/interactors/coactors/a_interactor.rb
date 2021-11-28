@@ -1,4 +1,4 @@
-class Interacts::AInteractor < IIInteractor::Base
+class Coactors::AInteractor < IIInteractor::Base
   context_in :stop, :fail
   context_out :results, default: []
 

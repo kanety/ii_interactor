@@ -5,8 +5,7 @@ require_relative 'core'
 require_relative 'variables'
 require_relative 'callbacks'
 require_relative 'instrumentation'
-require_relative 'interaction'
-require_relative 'lookup'
+require_relative 'coactors'
 
 module IIInteractor
   class Base
@@ -14,7 +13,6 @@ module IIInteractor
     include Callbacks
     include Instrumentation
     include Variables
-    include Interaction
-    include Lookup
+    include Coactors
   end
 end

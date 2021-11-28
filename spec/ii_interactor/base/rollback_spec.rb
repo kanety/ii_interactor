@@ -1,4 +1,4 @@
-describe IIInteractor::Interaction do
+describe IIInteractor::Base do
   context 'stop' do
     let :interactor do
       Interactor
