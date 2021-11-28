@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.0.0
+
+* Replace interaction feature with coactive.
+
 ## 1.2.0
 
 * Add variable setting feature.
