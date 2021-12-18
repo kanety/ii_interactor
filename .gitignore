@@ -2,6 +2,7 @@
 .project
 Gemfile.lock
 coverage/
+gemfiles/*.lock
 pkg/
 tmp/
 spec/dummy/db/*.sqlite3
