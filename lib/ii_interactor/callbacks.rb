@@ -6,7 +6,14 @@ module IIInteractor
     include ActiveSupport::Callbacks
 
     included do
+      define_callbacks :all
       define_callbacks :call
+    end
+
+    def call_all
+      run_callbacks :all do
+        super
+      end
     end
 
     def call_self
@@ -16,6 +23,18 @@ module IIInteractor
     end
 
     class_methods do
+      def before_all(*args, &block)
+        set_callback(:all, :before, *args, &block)
+      end
+
+      def after_all(*args, &block)
+        set_callback(:all, :after, *args, &block)
+      end
+
+      def around_all(*args, &block)
+        set_callback(:all, :around, *args, &block)
+      end
+
       def before_call(*args, &block)
         set_callback(:call, :before, *args, &block)
       end
