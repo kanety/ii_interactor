@@ -17,9 +17,20 @@ module IIInteractor
     end
 
     def call_all
-      planned = coactors.map { |interactor| interactor.new(@context) } + [self]
-      planned.each_with_index do |interactor, i|
-        if i == planned.size - 1
+      planned = coactors.map { |coactor| coactor.new(@context) }
+
+      planned = case IIInteractor.config.traversal
+        when :preorder
+          [self] + planned
+        when :postorder
+          planned + [self]
+        when :inorder
+          planned = planned.in_groups(2, false)
+          planned[0] + [self] + planned[1]
+        end
+
+      planned.each do |interactor|
+        if interactor == self
           interactor.call_self
         else
           interactor.call_all

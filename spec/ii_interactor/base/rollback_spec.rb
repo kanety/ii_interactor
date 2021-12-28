@@ -1,4 +1,8 @@
 describe IIInteractor::Base do
+  before do
+    IIInteractor.config.traversal = :postorder
+  end
+
   context 'stop' do
     let :interactor do
       Interactor

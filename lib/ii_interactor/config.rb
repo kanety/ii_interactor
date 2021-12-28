@@ -5,6 +5,7 @@ module IIInteractor
     class_attribute :data
 
     self.data = {
+      traversal: :postorder,
       lookup_cache: true
     }
 
