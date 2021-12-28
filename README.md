@@ -104,31 +104,6 @@ Interactor.call.result
 #=> returned value
 ```
 
-### Callbacks
-
-Following callbacks are available:
-
-* `before_call`
-* `around_call`
-* `after_call`
-
-For example:
-
-```ruby
-class Interactor < IIInteractor::Base
-  before_call do
-    @message = @context.message
-  end
-
-  def call
-    puts @message
-  end
-end
-
-Interactor.call(message: 'something')
-#=> something
-```
-
 ### Coactions
 
 You can call other interactors in the same context using `coact`:
@@ -233,6 +208,38 @@ context.message
 
 context.failure?
 #=> true
+```
+
+### Callbacks
+
+Following callbacks are available:
+
+* `before_all`, `around_all`, `after_all`
+* `before_call`, `around_call`, `after_call`
+
+`*_all` wraps all coactors, and `*_call` wraps `call` method.
+That is, `before_all` is called before running all coactors, and `before_call` is called before running `call` method.
+For example:
+
+```ruby
+class Interactor < IIInteractor::Base
+  before_all do
+    puts "before_all"
+  end
+
+  before_call do
+    puts "before_call"
+  end
+
+  def call
+    puts @context.message
+  end
+end
+
+Interactor.call(message: 'something')
+#=> before_all
+#   before_call
+#   something
 ```
 
 ### Pass a block
