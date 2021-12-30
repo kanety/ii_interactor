@@ -1,4 +1,4 @@
-class VariablesInteractor < IIInteractor::Base
+class InterfaceInteractor < IIInteractor::Base
   context_in :in
   context_out :out
 

@@ -5,7 +5,7 @@ describe IIInteractor::Base do
 
   context 'stop' do
     let :interactor do
-      Interactor
+      CoactiveInteractor
     end
 
     it 'stops interactor' do
@@ -17,7 +17,7 @@ describe IIInteractor::Base do
 
   context 'fail' do
     let :interactor do
-      Interactor
+      CoactiveInteractor
     end
 
     it 'fails interactor' do
@@ -29,7 +29,7 @@ describe IIInteractor::Base do
 
   context 'rollback' do
     let :interactor do
-      Interactor
+      CoactiveInteractor
     end
 
     it 'rollbacks A' do

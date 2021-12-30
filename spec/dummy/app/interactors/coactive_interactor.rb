@@ -1,4 +1,4 @@
-class Interactor < IIInteractor::Base
+class CoactiveInteractor < IIInteractor::Base
   coact Coactors::AInteractor
   coact Coactors::BInteractor
   coact Coactors::CInteractor

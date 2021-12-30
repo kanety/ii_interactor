@@ -1,6 +1,6 @@
 describe IIInteractor::Base do
   let :interactor do
-    SimpleInteractor
+    BasicInteractor
   end
 
   it 'calls interactor' do
@@ -16,6 +16,6 @@ describe IIInteractor::Base do
   end
 
   it 'returns context' do
-    expect(interactor.call(key: 'value').key).to eq('value')
+    expect(interactor.call(input: 'value').input).to eq('value')
   end
 end

@@ -1,4 +1,6 @@
 class Callbacks::AInteractor < IIInteractor::Base
+  context_out :results, default: []
+
   before_call do
     @context.results << 'A:before_call'
   end

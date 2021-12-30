@@ -5,7 +5,7 @@ describe IIInteractor::Base do
     end
 
     let :interactor do
-      Interactor
+      CoactiveInteractor
     end
 
     it 'traverses preorder' do
@@ -19,7 +19,7 @@ describe IIInteractor::Base do
     end
 
     let :interactor do
-      Interactor
+      CoactiveInteractor
     end
 
     it 'traverses postorder' do
@@ -33,7 +33,7 @@ describe IIInteractor::Base do
     end
 
     let :interactor do
-      Interactor
+      CoactiveInteractor
     end
 
     it 'traverses inorder' do
