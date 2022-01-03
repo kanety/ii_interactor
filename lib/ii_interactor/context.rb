@@ -1,13 +1,22 @@
 # frozen_string_literal: true
 
 module IIInteractor
-  class Context < OpenStruct
-    def initialize(hash, &block)
+  class Context < Coactive::Context
+    def initialize(data = {}, &block)
       super
-      self[:_block] = block
-      self[:_failed] = false
-      self[:_stopped] = false
-      self[:_called] = []
+      @_data[:_block] = block
+      @_data[:_failed] = false
+      @_data[:_stopped] = false
+      @_data[:_called] = []
+    end
+
+    def to_s
+      attrs = @_data.reject { |k, _| k.to_s =~ /^_/ }.map { |k, v| "#{k}=#{v.inspect}" }.join(', ')
+      "#<#{self.class} #{attrs}>"
+    end
+
+    def call_block!(*args)
+      @_data[:_block].call(*args) if @_data[:_block]
     end
 
     def success?
@@ -15,21 +24,27 @@ module IIInteractor
     end
 
     def failure?
-      self[:_failed] == true
+      @_data[:_failed] == true
     end
 
     def stopped?
-      self[:_stopped] == true
+      @_data[:_stopped] == true
     end
 
     def fail!(data = {})
-      self[:_failed] = true
-      data.each { |k, v| self[k] = v }
+      @_data[:_failed] = true
+      data.each { |k, v| @_data[k] = v }
+      define_accessors!(data.keys)
     end
 
     def stop!(data = {})
-      self[:_stopped] = true
-      data.each { |k, v| self[k] = v }
+      @_data[:_stopped] = true
+      data.each { |k, v| @_data[k] = v }
+      define_accessors!(data.keys)
+    end
+
+    def called!(interactor)
+      @_data[:_called] << interactor
     end
   end
 end

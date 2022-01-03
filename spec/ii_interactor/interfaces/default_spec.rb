@@ -1,4 +1,4 @@
-describe IIInteractor::Variables do
+describe IIInteractor::Base do
   context 'default' do
     let :interactor do
       Interfaces::DefaultInteractor

@@ -27,6 +27,9 @@ Create interactor with `call` method and call it as follows:
 
 ```ruby
 class Interactor < IIInteractor::Base
+  context_in :message
+  context_out :result
+
   def call
     @context.result = "called by #{@context.message}"
   end
@@ -39,31 +42,13 @@ Interactor.call(message: 'something')
 The first argument of `Interactor.call` is set to `@context`.
 The return value of `Interactor.call` is the same as `@context`.
 
-### Context variables
-
 You can define context variables used in interactor explicitly.
-For example:
+`context_in` copies context to instance variables of interactor,
+while `context_out` copies instance variables of interactor to context.
 
-```ruby
-class Interactor < IIInteractor::Base
-  context_in :input
-  context_out :result
+### Context options
 
-  def call
-    puts @input
-    @result = 'result value'
-  end
-end
-
-puts Interactor.call(input: 'input').result
-#=> input
-#   result value
-```
-
-`context_in` copies context into instance variables of interactor,
-while `context_out` copies instance variables of interactor into context.
-
-You can also define required context as follows:
+You can define required context as follows:
 
 ```ruby
 class Interactor < IIInteractor::Base

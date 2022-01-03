@@ -5,7 +5,6 @@ class CallbacksInteractor < IIInteractor::Base
   context_out :results, default: []
 
   before_all do
-    @context.results = []
     @context.results << 'before_all'
   end
 

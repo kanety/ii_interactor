@@ -1,4 +1,4 @@
-describe IIInteractor::Variables do
+describe IIInteractor::Base do
   let :interactor do
     InterfaceInteractor
   end

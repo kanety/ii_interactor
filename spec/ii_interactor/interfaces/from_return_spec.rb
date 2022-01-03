@@ -1,4 +1,4 @@
-describe IIInteractor::Variables do
+describe IIInteractor::Base do
   context 'from_return' do
     let :interactor do
       Interfaces::FromReturnInteractor

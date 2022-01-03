@@ -3,17 +3,14 @@
 module IIInteractor
   module Core
     extend ActiveSupport::Concern
+    include Coactive::Initializer
 
     included do
-      attr_reader :context
+      self.context_class = IIInteractor::Context
     end
 
-    def initialize(context = {}, &block)
-      @context = if context.is_a?(IIInteractor::Context)
-          context
-        else
-          IIInteractor::Context.new(context, &block)
-        end
+    def initialize(*)
+      super
     end
 
     def call_all
@@ -41,7 +38,7 @@ module IIInteractor
 
     def call_self
       call.tap do
-        @context._called << self
+        @context.called!(self)
       end
     end
 
@@ -52,7 +49,7 @@ module IIInteractor
     end
 
     def inform(*args)
-      @context._block.call(*([self] + args)) if @context._block
+      @context.call_block!(*([self] + args))
     end
 
     def fail!(data = {})
@@ -65,12 +62,12 @@ module IIInteractor
     end
 
     class_methods do
-      def call(*args, &block)
-        interactor = new(*args, &block)
+      def call(args = {}, &block)
+        interactor = new(args, &block)
         interactor.call_all
         interactor.context
       rescue UnprogressableError
-        interactor.context._called.reverse.each do |called|
+        interactor.context[:_called].reverse.each do |called|
           called.rollback
         end
         interactor.context
