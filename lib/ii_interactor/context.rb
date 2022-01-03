@@ -4,10 +4,10 @@ module IIInteractor
   class Context < Coactive::Context
     def initialize(data = {}, &block)
       super
-      @_data[:_block] = block
-      @_data[:_failed] = false
-      @_data[:_stopped] = false
-      @_data[:_called] = []
+      @_data[:_block] ||= block
+      @_data[:_failed] ||= false
+      @_data[:_stopped] ||= false
+      @_data[:_called] ||= []
     end
 
     def to_s
