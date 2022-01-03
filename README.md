@@ -284,7 +284,9 @@ IIInteractor::LogSubscriber.attach_to :ii_interactor
 This subscriber will write logs in debug mode as the following example:
 
 ```
-Called SimpleInteractor (Duration: 0.3ms, Allocations: 42)
+Calling BasicInteractor with #<IIInteractor::Context ...>
+...
+Called BasicInteractor (Duration: 0.1ms, Allocations: 4)
 ```
 
 ## Contributing
