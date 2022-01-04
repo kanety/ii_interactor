@@ -11,7 +11,7 @@ module IIInteractor
     end
 
     def to_s
-      attrs = @_data.reject { |k, _| k.to_s =~ /^_/ }.map { |k, v| "#{k}=#{v.inspect}" }.join(', ')
+      attrs = @_data.reject { |k, _| k.to_s =~ /^_/ }.map { |k, v| "#{k}=#{v.to_s.truncate(300)}" }.join(', ')
       "#<#{self.class} #{attrs}>"
     end
 
