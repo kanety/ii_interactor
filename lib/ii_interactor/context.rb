@@ -2,20 +2,33 @@
 
 module IIInteractor
   class Context < Coactive::Context
+    class Status < Struct.new(:failed, :stopped, :called)
+      def initialize(*)
+        self.failed = false
+        self.stopped = false
+        self.called = []
+      end
+    end
+
+    attr_reader :_status, :_block
+
     def initialize(data = {}, &block)
+      if data.is_a?(IIInteractor::Context)
+        @_block = data._block
+        @_status = data._status
+      else
+        @_block = block
+        @_status = Status.new
+      end
       super
-      @_data[:_block] ||= block
-      @_data[:_failed] ||= false
-      @_data[:_stopped] ||= false
-      @_data[:_called] ||= []
     end
 
     def to_s
-      "#<#{self.class} #{self.class.inspect(@_data)}>"
+      "#<#{self.class} #{self.class.inspect(@_data)} (#{self.class.inspect(@_status.to_h)})>"
     end
 
     def call_block!(*args)
-      @_data[:_block].call(*args) if @_data[:_block]
+      @_block.call(*args) if @_block
     end
 
     def success?
@@ -23,27 +36,27 @@ module IIInteractor
     end
 
     def failure?
-      @_data[:_failed] == true
+      @_status.failed == true
     end
 
     def stopped?
-      @_data[:_stopped] == true
+      @_status.stopped == true
     end
 
     def fail!(data = {})
-      @_data[:_failed] = true
+      @_status.failed = true
       data.each { |k, v| @_data[k] = v }
       define_accessors!(data.keys)
     end
 
     def stop!(data = {})
-      @_data[:_stopped] = true
+      @_status.stopped = true
       data.each { |k, v| @_data[k] = v }
       define_accessors!(data.keys)
     end
 
     def called!(interactor)
-      @_data[:_called] << interactor
+      @_status.called << interactor
     end
   end
 end

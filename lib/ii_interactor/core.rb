@@ -65,7 +65,7 @@ module IIInteractor
         interactor.call_all
         interactor.context
       rescue UnprogressableError
-        interactor.context[:_called].reverse.each do |called|
+        interactor.context._status.called.reverse.each do |called|
           called.rollback
         end
         interactor.context
