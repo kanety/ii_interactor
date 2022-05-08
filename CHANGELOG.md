@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.2.0
+
+* Use coactive 0.3.
+
 ## 2.1.0
 
 * Add traversal config.
