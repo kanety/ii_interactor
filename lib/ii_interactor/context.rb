@@ -11,8 +11,7 @@ module IIInteractor
     end
 
     def to_s
-      attrs = @_data.reject { |k, _| k.to_s =~ /^_/ }.map { |k, v| "#{k}=#{v.to_s.truncate(300)}" }.join(', ')
-      "#<#{self.class} #{attrs}>"
+      "#<#{self.class} #{self.class.inspect(@_data)}>"
     end
 
     def call_block!(*args)
