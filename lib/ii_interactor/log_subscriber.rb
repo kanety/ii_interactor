@@ -5,14 +5,14 @@ module IIInteractor
     def calling(event)
       debug do
         interactor = event.payload[:interactor]
-        "Calling #{interactor.class} with #{interactor.context}"
+        "  Calling #{interactor.class} with #{interactor.context}"
       end
     end
 
     def call(event)
       debug do
         interactor = event.payload[:interactor]
-        "Called #{interactor.class} (#{additional_log(event)})"
+        "  Called #{interactor.class} (#{additional_log(event)})"
       end
     end
 
