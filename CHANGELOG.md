@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.2.1
+
+* Indent log messages.
+
 ## 2.2.0
 
 * Use coactive 0.3.
