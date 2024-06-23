@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.2.2
+
+* Add `frozen_string_literal: true`.
+
 ## 2.2.1
 
 * Indent log messages.
