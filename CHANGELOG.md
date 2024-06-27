@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.3.0
+
+* Change name of instrumentation for rails 7.1.
+
 ## 2.2.2
 
 * Add `frozen_string_literal: true`.
