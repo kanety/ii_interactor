@@ -5,12 +5,12 @@ module IIInteractor
     extend ActiveSupport::Concern
 
     def call_all
-      ActiveSupport::Notifications.instrument 'calling.ii_interactor', interactor: self
+      ActiveSupport::Notifications.instrument 'start_call_all.ii_interactor', interactor: self
       super
     end
 
     def call_self
-      ActiveSupport::Notifications.instrument 'call.ii_interactor', interactor: self do
+      ActiveSupport::Notifications.instrument 'process_call_self.ii_interactor', interactor: self do
         super
       end
     end

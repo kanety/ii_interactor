@@ -2,14 +2,14 @@
 
 module IIInteractor
   class LogSubscriber < ActiveSupport::LogSubscriber
-    def calling(event)
+    def start_call_all(event)
       debug do
         interactor = event.payload[:interactor]
         "  Calling #{interactor.class} with #{interactor.context}"
       end
     end
 
-    def call(event)
+    def process_call_self(event)
       debug do
         interactor = event.payload[:interactor]
         "  Called #{interactor.class} (#{additional_log(event)})"
