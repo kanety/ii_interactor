@@ -2,7 +2,7 @@ class CallbacksInteractor < IIInteractor::Base
   coact Callbacks::AInteractor
   coact Callbacks::BInteractor
 
-  context_out :results, default: []
+  context :results, default: []
 
   before_all do
     @context.results << 'before_all'

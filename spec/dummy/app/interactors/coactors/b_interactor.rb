@@ -1,6 +1,6 @@
 class Coactors::BInteractor < IIInteractor::Base
-  context_in :stop, :fail
-  context_out :results, default: []
+  context :stop, :fail
+  context :results, default: [], output: true
 
   def call
     stop! if @stop == 'B'
