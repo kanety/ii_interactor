@@ -27,8 +27,8 @@ Create interactor with `call` method and call it as follows:
 
 ```ruby
 class Interactor < IIInteractor::Base
-  context_in :message
-  context_out :result
+  context :message
+  context :result
 
   def call
     @context.result = "called by #{@context.message}"
@@ -36,15 +36,14 @@ class Interactor < IIInteractor::Base
 end
 
 Interactor.call(message: 'something')
-#=> #<IIInteractor::Context message="something", result="called by something">
+#=> #<IIInteractor::Context @_data={:message=>"something", :result=>"called by something"}>
 ```
 
 The first argument of `Interactor.call` is set to `@context`.
 The return value of `Interactor.call` is the same as `@context`.
 
-You can define context variables used in interactor explicitly.
-`context_in` copies context to instance variables of interactor,
-while `context_out` copies instance variables of interactor to context.
+You can define context variables used in interactor explicitly by using the `context` method.
+`context` method copies the input variables to instance variables of the interactor.
 
 ### Context options
 
@@ -52,18 +51,18 @@ You can define required context as follows:
 
 ```ruby
 class Interactor < IIInteractor::Base
-  context_in :input, required: true
+  context :input, required: true
 end
 
 Interactor.call
-#=> IIInteractor::RequiredContextError (missing required context: input2)
+#=> missing required context: input (Coactive::MissingContextError)
 ```
 
 You can also define default value as follows:
 
 ```ruby
 class Interactor < IIInteractor::Base
-  context_in :input, default: 'input'
+  context :input, default: 'input'
 
   def call
     puts @input
@@ -78,7 +77,7 @@ You can also set context from return value of `call` method:
 
 ```ruby
 class Interactor < IIInteractor::Base
-  context_out :result, from_return: true
+  context :result, output: :return
 
   def call
     'returned value'
@@ -139,6 +138,8 @@ end
 class MainInteractor < IIInteractor::Base
   coact AInteractor
   coact BInteractor
+
+  context :message
 end
 
 context = MainInteractor.call
@@ -182,6 +183,8 @@ end
 class MainInteractor < IIInteractor::Base
   coact AInteractor
   coact BInteractor
+
+  context :message
 end
 
 context = MainInteractor.call
@@ -208,6 +211,8 @@ For example:
 
 ```ruby
 class Interactor < IIInteractor::Base
+  context :message
+
   before_all do
     puts "before_all"
   end
