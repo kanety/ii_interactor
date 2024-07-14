@@ -1,6 +1,6 @@
 class Interfaces::FromReturnInteractor < IIInteractor::Base
-  context_in :in
-  context_out :out, from_return: true
+  context :in
+  context :out, output: :return
 
   def call
     'return value'

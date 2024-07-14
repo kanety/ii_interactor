@@ -1,6 +1,6 @@
 class InterfaceInteractor < IIInteractor::Base
-  context_in :in
-  context_out :out
+  context :in
+  context :out, output: true
 
   def call
     @out = @in

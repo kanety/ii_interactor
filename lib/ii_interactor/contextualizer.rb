@@ -13,6 +13,7 @@ module IIInteractor
 
     class_methods do
       def context_in(*names, **options)
+        warn "DEPRECATION WARNING: 'context_in' is deprecated. Use 'context :x' instead. (#{caller[0]})"
         context(*names, **options)
       end
 
@@ -20,6 +21,9 @@ module IIInteractor
         options[:output] = true
         if options.delete(:from_return)
           options[:output] = :return
+          warn "DEPRECATION WARNING: 'context_out' is deprecated. Use 'context :x, output: :return' instead. (#{caller[0]})"
+        else
+          warn "DEPRECATION WARNING: 'context_out' is deprecated. Use 'context :x, output: true' instead. (#{caller[0]})"
         end
         context(*names, **options)
       end

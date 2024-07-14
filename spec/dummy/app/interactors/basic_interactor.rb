@@ -1,5 +1,5 @@
 class BasicInteractor < IIInteractor::Base
-  context_in :input
+  context :input
 
   def call
     inform

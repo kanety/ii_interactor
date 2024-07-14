@@ -1,6 +1,6 @@
 class Interfaces::RequiredInteractor < IIInteractor::Base
-  context_in :in, required: true
-  context_out :out, required: true
+  context :in, required: true
+  context :out, required: true
 
   def call
   end

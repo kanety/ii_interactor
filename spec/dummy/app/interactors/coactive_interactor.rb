@@ -3,8 +3,8 @@ class CoactiveInteractor < IIInteractor::Base
   coact Coactors::BInteractor
   coact Coactors::CInteractor
 
-  context_in :fail
-  context_out :results, default: []
+  context :fail
+  context :results, default: [], output: true
 
   def call
     fail! if @fail == 'MAIN'
