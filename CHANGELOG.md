@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.3.1
+
+* Deprecate `context_in` and `context_out`. Use `context` instead.
+
 ## 2.3.0
 
 * Change name of instrumentation for rails 7.1.
