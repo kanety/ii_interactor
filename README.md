@@ -6,8 +6,8 @@ This gem is inspired by [interactor](https://github.com/collectiveidea/interacto
 
 ## Dependencies
 
-* ruby 2.3+
-* activesupport 5.0+
+* ruby 3.0+
+* activesupport 7.0+
 
 ## Installation
 
