@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.4.0
+
+* Drop support for ruby <= 2.7, rails <= 6.1.
+
 ## 2.3.1
 
 * Deprecate `context_in` and `context_out`. Use `context` instead.
